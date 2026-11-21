@@ -1,0 +1,8 @@
+{
+  "target": "http://127.0.0.1:8088/users/{ID}",
+  "method": "GET",
+  "baseline_id": 1,
+  "baseline_status": 200,
+  "scanned": 2,
+  "idor_candidates": []
+}

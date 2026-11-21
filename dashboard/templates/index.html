@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>KUZAS IDOR Dashboard</title>
+  <style>
+    body { font-family: -apple-system, system-ui, sans-serif; margin: 0; background: #0d1117; color: #c9d1d9; }
+    header { background: #161b22; border-bottom: 1px solid #30363d; padding: 16px 24px; }
+    h1 { margin: 0; font-size: 20px; }
+    main { display: grid; grid-template-columns: 320px 1fr; height: calc(100vh - 60px); }
+    aside { background: #161b22; border-right: 1px solid #30363d; overflow-y: auto; padding: 12px; }
+    .file { padding: 10px; border-radius: 6px; cursor: pointer; margin-bottom: 4px; border: 1px solid transparent; }
+    .file:hover { background: #21262d; }
+    .file.active { background: #1f6feb33; border-color: #1f6feb; }
+    .file .name { font-weight: 600; font-size: 13px; word-break: break-all; }
+    .file .meta { font-size: 11px; color: #8b949e; margin-top: 2px; }
+    section { padding: 24px; overflow-y: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #21262d; }
+    th { color: #8b949e; font-weight: 600; }
+    .yes { color: #3fb950; font-weight: 600; }
+    .no { color: #8b949e; }
+    .pill { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 11px; background: #1f6feb33; color: #58a6ff; }
+    .empty { color: #8b949e; margin-top: 40px; text-align: center; }
+    .drop { margin-top: 12px; border: 1px dashed #30363d; border-radius: 6px; padding: 10px; font-size: 12px; text-align: center; color: #8b949e; }
+    .drop.dragover { border-color: #1f6feb; color: #58a6ff; }
+  </style>
+</head>
+<body>
+  <header><h1>KUZAS — IDOR Dashboard</h1></header>
+  <main>
+    <aside>
+      <div id="files"></div>
+      <div class="drop" id="drop">drop a result .json here</div>
+    </aside>
+    <section id="detail">
+      <div class="empty">select a result to inspect</div>
+    </section>
+  </main>
+<script>
+const filesEl = document.getElementById('files');
+const detailEl = document.getElementById('detail');
+const dropEl = document.getElementById('drop');
+let current = null;
+
+async function loadList() {
+  const r = await fetch('/api/results');
+  if (!r.ok) {
+    filesEl.innerHTML = '<div class="empty">could not load results</div>';
+    return;
+  }
+  const items = await r.json();
+  filesEl.innerHTML = items.map(i => `
+    <div class="file" data-file="${esc(i.file)}">
+      <div class="name">${esc(i.target)}</div>
+      <div class="meta">${esc(i.file)} · ${esc(i.candidates)} findings · ${esc(i.successes)} bypass</div>
+    </div>
+  `).join('') || '<div class="empty">no results yet</div>';
+  filesEl.querySelectorAll('.file').forEach(el => {
+    el.onclick = () => openResult(el.dataset.file);
+  });
+}
+
+async function openResult(file) {
+  current = file;
+  document.querySelectorAll('.file').forEach(el =>
+    el.classList.toggle('active', el.dataset.file === file));
+  const r = await fetch('/api/result/' + encodeURIComponent(file));
+  if (!r.ok) {
+    const error = await r.json().catch(() => ({error: 'could not load result'}));
+    detailEl.innerHTML = `<div class="empty">${esc(error.error)}</div>`;
+    return;
+  }
+  const data = await r.json();
+  render(data);
+}
+
+function esc(s) { return String(s ?? '').replace(/[&<>"']/g,
+  c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function render(d) {
+  if (d.idor_candidates) {
+    const rows = d.idor_candidates.map(c => {
+      const sens = Object.keys(c.sensitive || {}).join(', ') || '-';
+      const bs = (c.bypass_successes || []).length;
+      return `<tr>
+        <td>${esc(c.id)}</td>
+        <td>${esc(c.status)}</td>
+        <td>${esc(c.length)}</td>
+        <td>${esc(c.comparison?.similarity ?? '')}</td>
+        <td>${esc(sens)}</td>
+        <td>${bs ? `<span class="yes">${bs}</span>` : '<span class="no">0</span>'}</td>
+      </tr>`;
+    }).join('');
+    detailEl.innerHTML = `
+      <h2>${esc(d.target)}</h2>
+      <p><span class="pill">${d.method}</span>
+         baseline=${esc(d.baseline_id)} scanned=${esc(d.scanned)}</p>
+      <table><thead><tr>
+        <th>id</th><th>status</th><th>length</th><th>sim</th>
+        <th>sensitive</th><th>bypasses</th>
+      </tr></thead><tbody>${rows || '<tr><td colspan="6">no candidates</td></tr>'}</tbody></table>
+    `;
+    return;
+  }
+  if (d.attempts) {
+    const rows = d.attempts.map(a => `
+      <tr>
+        <td>${esc(a.technique)}</td>
+        <td>${esc(a.status ?? 'ERR')}</td>
+        <td>${esc(a.verdict ?? a.error ?? '')}</td>
+        <td>${a.success ? '<span class="yes">YES</span>' : '<span class="no">no</span>'}</td>
+        <td>${esc(Object.keys(a.sensitive || {}).join(', ') || '-')}</td>
+      </tr>
+    `).join('');
+    detailEl.innerHTML = `
+      <h2>${esc(d.target)} — bypass id=${esc(d.target_id)}</h2>
+      <p>${d.successes.length} successful / ${d.attempts.length} attempts</p>
+      <table><thead><tr>
+        <th>technique</th><th>status</th><th>verdict</th><th>success</th><th>sensitive</th>
+      </tr></thead><tbody>${rows}</tbody></table>
+    `;
+    return;
+  }
+  detailEl.innerHTML = `<pre>${esc(JSON.stringify(d, null, 2))}</pre>`;
+}
+
+dropEl.addEventListener('dragover', e => { e.preventDefault(); dropEl.classList.add('dragover'); });
+dropEl.addEventListener('dragleave', () => dropEl.classList.remove('dragover'));
+dropEl.addEventListener('drop', async e => {
+  e.preventDefault(); dropEl.classList.remove('dragover');
+  const f = e.dataTransfer.files[0]; if (!f) return;
+  const fd = new FormData(); fd.append('file', f);
+  await fetch('/api/upload', { method: 'POST', body: fd });
+  loadList();
+});
+
+loadList();
+</script>
+</body>
+</html>

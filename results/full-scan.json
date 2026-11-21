@@ -1,0 +1,1208 @@
+{
+  "target": "http://127.0.0.1:8088/users/{ID}",
+  "method": "GET",
+  "baseline_id": 1,
+  "baseline_status": 200,
+  "scanned": 2,
+  "idor_candidates": [
+    {
+      "status": 200,
+      "length": 78,
+      "body": "Someone else private profile with a much longer response and owner@example.com",
+      "headers": {
+        "Server": "BaseHTTP/0.6 Python/3.13.13",
+        "Date": "Sat, 21 Nov 2026 11:06:55 GMT",
+        "Content-Length": "78"
+      },
+      "hash": "a982c9d61cc4363e",
+      "id": 3,
+      "url": "http://127.0.0.1:8088/users/3",
+      "comparison": {
+        "verdict": "distinct",
+        "status": 200,
+        "length": 78,
+        "length_diff": 46,
+        "similarity": 0.273,
+        "hash": "a982c9d61cc4363e"
+      },
+      "sensitive": {
+        "email": 1
+      },
+      "bypass_attempts": [
+        {
+          "technique": "header X-Original-URL: /",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Rewrite-URL: /",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Forwarded-For: 127.0.0.1",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Forwarded-Host: localhost",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Real-IP: 127.0.0.1",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Originating-IP: 127.0.0.1",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Remote-IP: 127.0.0.1",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Client-IP: 127.0.0.1",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Host: 127.0.0.1",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Forwarded-Server: 127.0.0.1",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-HTTP-Method-Override: GET",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Method-Override: GET",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "path http://127.0.0.1:8088/users/..%2f3",
+          "url": "http://127.0.0.1:8088/users/..%2f3",
+          "method": "GET",
+          "status": 404,
+          "length": 9,
+          "similarity": 0.146,
+          "verdict": "not_found",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "path http://127.0.0.1:8088/users/3.json",
+          "url": "http://127.0.0.1:8088/users/3.json",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "path http://127.0.0.1:8088/users/3%00",
+          "url": "http://127.0.0.1:8088/users/3%00",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "path http://127.0.0.1:8088/users/3",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "path http://127.0.0.1:8088/users/../3",
+          "url": "http://127.0.0.1:8088/users/../3",
+          "method": "GET",
+          "status": 404,
+          "length": 9,
+          "similarity": 0.146,
+          "verdict": "not_found",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "path http://127.0.0.1:8088/users/3;.json",
+          "url": "http://127.0.0.1:8088/users/3;.json",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "path http://127.0.0.1:8088/users/.%2e/3",
+          "url": "http://127.0.0.1:8088/users/.%2e/3",
+          "method": "GET",
+          "status": 404,
+          "length": 9,
+          "similarity": 0.146,
+          "verdict": "not_found",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "path http://127.0.0.1:8088//users/3",
+          "url": "http://127.0.0.1:8088//users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "path http://127.0.0.1:8088/users/%2e%2e/3",
+          "url": "http://127.0.0.1:8088/users/%2e%2e/3",
+          "method": "GET",
+          "status": 404,
+          "length": 9,
+          "similarity": 0.146,
+          "verdict": "not_found",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "path http://127.0.0.1:8088/users/3/",
+          "url": "http://127.0.0.1:8088/users/3/",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "path http://127.0.0.1:8088/users/..;/3",
+          "url": "http://127.0.0.1:8088/users/..;/3",
+          "method": "GET",
+          "status": 404,
+          "length": 9,
+          "similarity": 0.146,
+          "verdict": "not_found",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "id-mutation 4",
+          "url": "http://127.0.0.1:8088/users/4",
+          "method": "GET",
+          "status": 404,
+          "length": 9,
+          "similarity": 0.146,
+          "verdict": "not_found",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "id-mutation 2",
+          "url": "http://127.0.0.1:8088/users/2",
+          "method": "GET",
+          "status": 403,
+          "length": 9,
+          "similarity": 0.146,
+          "verdict": "denied",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "id-mutation 6",
+          "url": "http://127.0.0.1:8088/users/6",
+          "method": "GET",
+          "status": 404,
+          "length": 9,
+          "similarity": 0.146,
+          "verdict": "not_found",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "id-mutation 0",
+          "url": "http://127.0.0.1:8088/users/0",
+          "method": "GET",
+          "status": 404,
+          "length": 9,
+          "similarity": 0.146,
+          "verdict": "not_found",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "id-mutation -1",
+          "url": "http://127.0.0.1:8088/users/-1",
+          "method": "GET",
+          "status": 404,
+          "length": 9,
+          "similarity": 0.146,
+          "verdict": "not_found",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "id-mutation 103",
+          "url": "http://127.0.0.1:8088/users/103",
+          "method": "GET",
+          "status": 200,
+          "length": 32,
+          "similarity": 1.0,
+          "verdict": "identical",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "id-mutation 30",
+          "url": "http://127.0.0.1:8088/users/30",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "id-mutation 3'",
+          "url": "http://127.0.0.1:8088/users/3'",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "id-mutation 3\"",
+          "url": "http://127.0.0.1:8088/users/3\"",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "id-mutation 3/",
+          "url": "http://127.0.0.1:8088/users/3/",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "id-mutation 3 ",
+          "url": "http://127.0.0.1:8088/users/3 ",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "id-mutation 3%00",
+          "url": "http://127.0.0.1:8088/users/3%00",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "id-mutation 3?",
+          "url": "http://127.0.0.1:8088/users/3?",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "id-mutation 03",
+          "url": "http://127.0.0.1:8088/users/03",
+          "method": "GET",
+          "status": 404,
+          "length": 9,
+          "similarity": 0.146,
+          "verdict": "not_found",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "query http://127.0.0.1:8088/users/3&debug=1",
+          "url": "http://127.0.0.1:8088/users/3&debug=1",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "query http://127.0.0.1:8088/users/3&admin=true",
+          "url": "http://127.0.0.1:8088/users/3&admin=true",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "query http://127.0.0.1:8088/users/3&role=admin",
+          "url": "http://127.0.0.1:8088/users/3&role=admin",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "query http://127.0.0.1:8088/users/3&user_id=1",
+          "url": "http://127.0.0.1:8088/users/3&user_id=1",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "query http://127.0.0.1:8088/users/3&access=all",
+          "url": "http://127.0.0.1:8088/users/3&access=all",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "query http://127.0.0.1:8088/users/3&internal=1",
+          "url": "http://127.0.0.1:8088/users/3&internal=1",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "query http://127.0.0.1:8088/users/3&test=1",
+          "url": "http://127.0.0.1:8088/users/3&test=1",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "method POST",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "POST",
+          "status": 501,
+          "length": 357,
+          "similarity": 0.046,
+          "verdict": "other",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "method PUT",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "PUT",
+          "status": 501,
+          "length": 356,
+          "similarity": 0.046,
+          "verdict": "other",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "method PATCH",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "PATCH",
+          "status": 501,
+          "length": 358,
+          "similarity": 0.046,
+          "verdict": "other",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "method DELETE",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "DELETE",
+          "status": 501,
+          "length": 359,
+          "similarity": 0.046,
+          "verdict": "other",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "method HEAD",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "HEAD",
+          "status": 501,
+          "length": 0,
+          "similarity": 0.0,
+          "verdict": "other",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "method OPTIONS",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "OPTIONS",
+          "status": 501,
+          "length": 360,
+          "similarity": 0.046,
+          "verdict": "other",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "method TRACE",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "TRACE",
+          "status": 501,
+          "length": 358,
+          "similarity": 0.046,
+          "verdict": "other",
+          "success": false,
+          "sensitive": {}
+        },
+        {
+          "technique": "content-type application/json",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "content-type application/xml",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "content-type text/xml",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "content-type application/x-www-form-urlencoded",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "auth empty-auth",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        }
+      ],
+      "bypass_successes": [
+        {
+          "technique": "header X-Original-URL: /",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Rewrite-URL: /",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Forwarded-For: 127.0.0.1",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Forwarded-Host: localhost",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Real-IP: 127.0.0.1",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Originating-IP: 127.0.0.1",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Remote-IP: 127.0.0.1",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Client-IP: 127.0.0.1",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Host: 127.0.0.1",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Forwarded-Server: 127.0.0.1",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-HTTP-Method-Override: GET",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "header X-Method-Override: GET",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "path http://127.0.0.1:8088/users/3.json",
+          "url": "http://127.0.0.1:8088/users/3.json",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "path http://127.0.0.1:8088/users/3%00",
+          "url": "http://127.0.0.1:8088/users/3%00",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "path http://127.0.0.1:8088/users/3",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "path http://127.0.0.1:8088/users/3;.json",
+          "url": "http://127.0.0.1:8088/users/3;.json",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "path http://127.0.0.1:8088//users/3",
+          "url": "http://127.0.0.1:8088//users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "path http://127.0.0.1:8088/users/3/",
+          "url": "http://127.0.0.1:8088/users/3/",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "id-mutation 30",
+          "url": "http://127.0.0.1:8088/users/30",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "id-mutation 3'",
+          "url": "http://127.0.0.1:8088/users/3'",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "id-mutation 3\"",
+          "url": "http://127.0.0.1:8088/users/3\"",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "id-mutation 3/",
+          "url": "http://127.0.0.1:8088/users/3/",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "id-mutation 3 ",
+          "url": "http://127.0.0.1:8088/users/3 ",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "id-mutation 3%00",
+          "url": "http://127.0.0.1:8088/users/3%00",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "id-mutation 3?",
+          "url": "http://127.0.0.1:8088/users/3?",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "query http://127.0.0.1:8088/users/3&debug=1",
+          "url": "http://127.0.0.1:8088/users/3&debug=1",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "query http://127.0.0.1:8088/users/3&admin=true",
+          "url": "http://127.0.0.1:8088/users/3&admin=true",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "query http://127.0.0.1:8088/users/3&role=admin",
+          "url": "http://127.0.0.1:8088/users/3&role=admin",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "query http://127.0.0.1:8088/users/3&user_id=1",
+          "url": "http://127.0.0.1:8088/users/3&user_id=1",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "query http://127.0.0.1:8088/users/3&access=all",
+          "url": "http://127.0.0.1:8088/users/3&access=all",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "query http://127.0.0.1:8088/users/3&internal=1",
+          "url": "http://127.0.0.1:8088/users/3&internal=1",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "query http://127.0.0.1:8088/users/3&test=1",
+          "url": "http://127.0.0.1:8088/users/3&test=1",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "content-type application/json",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "content-type application/xml",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "content-type text/xml",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "content-type application/x-www-form-urlencoded",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        },
+        {
+          "technique": "auth empty-auth",
+          "url": "http://127.0.0.1:8088/users/3",
+          "method": "GET",
+          "status": 200,
+          "length": 78,
+          "similarity": 0.273,
+          "verdict": "distinct",
+          "success": true,
+          "sensitive": {
+            "email": 1
+          }
+        }
+      ]
+    }
+  ]
+}
