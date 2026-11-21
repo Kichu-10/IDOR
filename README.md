@@ -1,36 +1,61 @@
-# IDOR Toolkit
+<div align="center">
 
-**Detection + bypass for Insecure Direct Object References.**
+# 🔑 IDOR Toolkit
 
-A CLI-first toolkit that walks an ID range, diffs responses against your own resource, and — when a straight id fails — runs an eleven-class bypass matrix to find a way through. Ships with a web dashboard for triaging results.
+### Detection + bypass for Insecure Direct Object References
 
----
+![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![CLI](https://img.shields.io/badge/Interface-CLI%20%2B%20Dashboard-2EAD33?style=for-the-badge)
+![Techniques](https://img.shields.io/badge/Bypass%20Classes-11-blueviolet?style=for-the-badge)
+![License](https://img.shields.io/badge/Use-Authorized%20Testing%20Only-critical?style=for-the-badge)
 
-## Table of Contents
+*A CLI-first toolkit that walks an ID range, diffs responses against your own resource, and — when a straight id fails — runs an eleven-class bypass matrix to find a way through. Ships with a web dashboard for triaging results.*
 
-1. [Requirements](#requirements)
-2. [Install](#install)
-3. [Project Layout](#project-layout)
-4. [Commands](#commands)
-5. [Detection Logic](#detection-logic)
-6. [Bypass Techniques](#bypass-techniques)
-7. [When a Path Is Blocked](#when-a-path-is-blocked)
-8. [Sensitive Data Detection](#sensitive-data-detection)
-9. [Dashboard](#dashboard)
-10. [Output Schema](#output-schema)
-11. [Troubleshooting](#troubleshooting)
-12. [Extending](#extending)
-13. [Legal](#legal)
+</div>
 
 ---
 
-## Requirements
+## 📖 Table of Contents
 
-- Python 3.9+
-- pip
-- Network access to the target you're auditing
+<table>
+<tr>
+<td valign="top">
 
-## Install
+- [Requirements](#-requirements)
+- [Install](#-install)
+- [Project Layout](#-project-layout)
+- [Commands](#-commands)
+- [Detection Logic](#-detection-logic)
+- [Bypass Techniques](#-bypass-techniques)
+
+</td>
+<td valign="top">
+
+- [When a Path Is Blocked](#-when-a-path-is-blocked)
+- [Sensitive Data Detection](#-sensitive-data-detection)
+- [Dashboard](#-dashboard)
+- [Output Schema](#-output-schema)
+- [Troubleshooting](#-troubleshooting)
+- [Extending](#-extending)
+- [Legal](#-legal)
+
+</td>
+</tr>
+</table>
+
+---
+
+## 📋 Requirements
+
+| Requirement | Notes |
+|---|---|
+| 🐍 Python | 3.9+ |
+| 📦 pip | for dependencies |
+| 🌐 Network access | to the target you're auditing |
+
+---
+
+## 📦 Install
 
 ```bash
 git clone <your-repo> idor-toolkit
@@ -41,13 +66,15 @@ pip install -r requirements.txt
 chmod +x idor.py
 ```
 
-Verify:
+**Verify:**
 
 ```bash
 ./idor.py --help
 ```
 
-## Project Layout
+---
+
+## 📁 Project Layout
 
 ```
 idor-toolkit/
@@ -70,11 +97,11 @@ idor-toolkit/
 
 ---
 
-## Commands
+## 💻 Commands
 
 `idor.py` has three subcommands: `scan`, `bypass`, `dashboard`.
 
-### `scan` — walk an ID range
+### 🔍 `scan` — walk an ID range
 
 ```bash
 ./idor.py scan -u <url-with-{ID}> [options]
@@ -97,7 +124,8 @@ idor-toolkit/
 | `-o, --output` | — | write JSON result |
 | `-v, --verbose` | off | per-id logging |
 
-**Examples**
+<details>
+<summary><b>📋 Examples</b></summary>
 
 ```bash
 # basic — try ids 1..50, no auth
@@ -120,7 +148,9 @@ idor-toolkit/
   -c "session=abc123" --bypass -o results.json
 ```
 
-### `bypass` — single id, full bypass matrix
+</details>
+
+### 🧨 `bypass` — single id, full bypass matrix
 
 ```bash
 ./idor.py bypass -u <url> --id <n> [options]
@@ -133,17 +163,17 @@ Same flags as `scan` minus range. Runs every bypass technique against `--id` and
   --id 42 -c "session=abc123"
 ```
 
-### `dashboard` — web UI
+### 📊 `dashboard` — web UI
 
 ```bash
 ./idor.py dashboard [--host 127.0.0.1] [--port 5000] [--results-dir ./results]
 ```
 
-See [Dashboard](#dashboard).
+See [Dashboard](#-dashboard).
 
 ---
 
-## Detection Logic
+## 🧠 Detection Logic
 
 For every `id` in the range:
 
@@ -153,24 +183,24 @@ For every `id` in the range:
 
 | Verdict | Condition |
 |---------|-----------|
-| `identical` | same hash, same status, similar length |
-| `similar` | same status, similarity ≥ 0.7 |
-| `distinct` | 2xx status, similarity < 0.95, length diff > 100 bytes |
-| `denied` | 401 / 403 |
-| `not_found` | 404 |
-| `other` | anything else |
+| 🟰 `identical` | same hash, same status, similar length |
+| 🔵 `similar` | same status, similarity ≥ 0.7 |
+| 🔴 `distinct` | 2xx status, similarity < 0.95, length diff > 100 bytes |
+| 🚫 `denied` | 401 / 403 |
+| ⚪ `not_found` | 404 |
+| ⚙️ `other` | anything else |
 
-A `distinct` verdict is an **IDOR candidate**. Candidates are then scanned for sensitive data and, if `--bypass` was set, run through the full bypass matrix.
+> A `distinct` verdict is an **IDOR candidate**. Candidates are then scanned for sensitive data and, if `--bypass` was set, run through the full bypass matrix.
 
 Comparison uses `difflib.SequenceMatcher` on the first 5000 bytes of body, plus status and length deltas. Similarity ≥ 0.95 with a small length delta is treated as "same resource, different page chrome" and skipped.
 
 ---
 
-## Bypass Techniques
+## 🧩 Bypass Techniques
 
 When a straight GET fails, the engine tries all eleven classes below.
 
-### 1. Header bypass
+### 1️⃣ Header bypass
 
 Spoofs localhost, rewrites paths at the proxy, or overrides the method via header.
 
@@ -189,7 +219,7 @@ Spoofs localhost, rewrites paths at the proxy, or overrides the method via heade
 | `X-HTTP-Method-Override` | `GET` | verb override |
 | `X-Method-Override` | `GET` | same |
 
-### 2. Path bypass
+### 2️⃣ Path bypass
 
 Routing and auth middleware normalize paths differently; the mismatch is the exploit.
 
@@ -206,7 +236,7 @@ Routing and auth middleware normalize paths differently; the mismatch is the exp
 | json-ish suffix | `/api/users/42;.json` or `/api/users/42.json` |
 | double slash | `/api//users/42` |
 
-### 3. ID mutation
+### 3️⃣ ID mutation
 
 | Technique | Example |
 |-----------|---------|
@@ -217,19 +247,19 @@ Routing and auth middleware normalize paths differently; the mismatch is the exp
 | multiply by 10 | `42` → `420` |
 | UUID variants | any UUID → `00000000-0000-0000-0000-000000000000` |
 
-### 4. Query param injection
+### 4️⃣ Query param injection
 
 Appends `debug=1`, `admin=true`, `role=admin`, `user_id=1`, `access=all`, `internal=1`, `test=1`.
 
-### 5. Method swap
+### 5️⃣ Method swap
 
 GET / POST / PUT / PATCH / DELETE / HEAD / OPTIONS — every verb other than the original.
 
-### 6. Content-type swap
+### 6️⃣ Content-type swap
 
 `application/json`, `application/xml`, `text/xml`, `application/x-www-form-urlencoded`.
 
-### 7. Auth strip / downgrade
+### 7️⃣ Auth strip / downgrade
 
 | Technique | Effect |
 |-----------|--------|
@@ -237,7 +267,7 @@ GET / POST / PUT / PATCH / DELETE / HEAD / OPTIONS — every verb other than the
 | Basic | replace `Bearer <tok>` with `Basic <tok>` |
 | empty | set `Authorization: ""` |
 
-### 8. Cookie mutation
+### 8️⃣ Cookie mutation
 
 | Technique | Effect |
 |-----------|--------|
@@ -245,13 +275,25 @@ GET / POST / PUT / PATCH / DELETE / HEAD / OPTIONS — every verb other than the
 | role-admin | append `role=admin; is_admin=true` |
 | cookie-*=1 | reset any id/user cookie to `1` |
 
-Every attempt is compared against the baseline. A 2xx status with body similarity < 0.95 counts as a **successful bypass**.
+> Every attempt is compared against the baseline. A 2xx status with body similarity < 0.95 counts as a **successful bypass**.
 
 ---
 
-## When a Path Is Blocked
+## 🚧 When a Path Is Blocked
 
 If a user can't reach the path they need — 403, 404, or an auth wall — walk this order:
+
+```mermaid
+flowchart TD
+    A[🚫 Path blocked] --> B[1. Header spoof<br/>X-Forwarded-For: 127.0.0.1]
+    B --> C[2. Path mutation<br/>trailing slash, ..;/ , %2e%2e/, %00]
+    C --> D[3. Method swap<br/>HEAD, OPTIONS, POST]
+    D --> E[4. Content-type swap<br/>JSON vs form parsers]
+    E --> F[5. Auth strip/downgrade<br/>empty header or Basic]
+    F --> G[6. Cookie mutation<br/>role=admin, strip session]
+    G --> H[7. Query injection<br/>?admin=true]
+    H --> I[8. ID mutation<br/>neighbours, sentinels, UUIDs]
+```
 
 1. **Header spoof** — `X-Forwarded-For: 127.0.0.1` is the single most-effective bypass in legacy apps. Add `X-Original-URL` if there's a reverse proxy in front.
 2. **Path mutation** — trailing slash, `..;/`, `%2e%2e/`, `%00` suffix. Auth middleware and router normalize differently; the mismatch is the exploit.
@@ -273,25 +315,25 @@ The output tells you which technique worked — technique label, status, verdict
 
 ---
 
-## Sensitive Data Detection
+## 🔎 Sensitive Data Detection
 
 When a bypass succeeds, the response body is scanned for markers:
 
 | Key | Pattern |
 |-----|---------|
-| `email` | `[\w.+-]+@[\w-]+\.[\w.-]+` |
-| `phone` | `\+?\d[\d\s().-]{7,}\d` |
-| `ssn` | `\d{3}-\d{2}-\d{4}` |
-| `credit_card` | 13–16 digit runs |
-| `api_key` | `api_key` / `token` / `secret` followed by ≥16 alnum chars |
-| `jwt` | `eyJ...` JWT triple |
-| `aws_key` | `AKIA[0-9A-Z]{16}` |
+| 📧 `email` | `[\w.+-]+@[\w-]+\.[\w.-]+` |
+| 📱 `phone` | `\+?\d[\d\s().-]{7,}\d` |
+| 🪪 `ssn` | `\d{3}-\d{2}-\d{4}` |
+| 💳 `credit_card` | 13–16 digit runs |
+| 🔑 `api_key` | `api_key` / `token` / `secret` followed by ≥16 alnum chars |
+| 🎫 `jwt` | `eyJ...` JWT triple |
+| ☁️ `aws_key` | `AKIA[0-9A-Z]{16}` |
 
-Hits are counted per class and surfaced in JSON + dashboard.
+> Hits are counted per class and surfaced in JSON + dashboard.
 
 ---
 
-## Dashboard
+## 📊 Dashboard
 
 ```bash
 ./idor.py dashboard --port 5000 --results-dir ./results
@@ -301,12 +343,12 @@ Open `http://127.0.0.1:5000`.
 
 **Features**
 
-- sidebar lists every `.json` result file in `results-dir`
-- per-file metadata: target, candidate count, bypass-success count
-- click a file → table shows candidate ids, statuses, lengths, similarity, sensitive-data hits, bypass count
-- bypass findings expand under each candidate
-- drag-and-drop JSON uploads into the results dir
-- auto-refresh list when uploads complete
+- 📁 sidebar lists every `.json` result file in `results-dir`
+- 🏷️ per-file metadata: target, candidate count, bypass-success count
+- 📋 click a file → table shows candidate ids, statuses, lengths, similarity, sensitive-data hits, bypass count
+- 🔽 bypass findings expand under each candidate
+- 🖱️ drag-and-drop JSON uploads into the results dir
+- 🔄 auto-refresh list when uploads complete
 
 **Generating files the dashboard can read:**
 
@@ -322,9 +364,10 @@ mkdir -p results
 
 ---
 
-## Output Schema
+## 🧾 Output Schema
 
-### `scan` result
+<details>
+<summary><b><code>scan</code> result</b></summary>
 
 ```json
 {
@@ -355,7 +398,10 @@ mkdir -p results
 }
 ```
 
-### `bypass` result
+</details>
+
+<details>
+<summary><b><code>bypass</code> result</b></summary>
 
 ```json
 {
@@ -380,9 +426,11 @@ mkdir -p results
 }
 ```
 
+</details>
+
 ---
 
-## Troubleshooting
+## 🐛 Troubleshooting
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|
@@ -396,22 +444,27 @@ mkdir -p results
 
 ---
 
-## Extending
+## 🧱 Extending
 
-### New bypass technique
-
+**New bypass technique**
 Add a static method to `BypassEngine` in `core/bypass.py`, then call it from `Scanner._run_bypass_matrix` in `core/scanner.py`. Each attempt feeds `add(label, url, method, body, headers, cookie)`.
 
-### New sensitive-data pattern
-
+**New sensitive-data pattern**
 Extend `find_sensitive_patterns` in `core/detector.py`. Regex only — it runs per response, keep it cheap.
 
-### New dashboard view
-
+**New dashboard view**
 Add a route in `dashboard/app.py`, a template in `dashboard/templates/`, and a JS branch in `index.html`'s `render()`.
 
 ---
 
-## Legal
+## 📜 Legal
 
-Intended for authorized security testing only. Only run this against systems you own or have explicit written permission to test. Unauthorized access to systems is illegal in nearly every jurisdiction. The author assumes no liability for misuse.
+> **Intended for authorized security testing only.** Only run this against systems you own or have explicit written permission to test. Unauthorized access to systems is illegal in nearly every jurisdiction. The author assumes no liability for misuse.
+
+---
+
+<div align="center">
+
+**Test responsibly. Get permission first.** 🔒
+
+</div>
