@@ -58,7 +58,7 @@
 ## 📦 Install
 
 ```bash
-git clone <your-repo> idor-toolkit
+git clone https://github.com/Kichu-10/IDOR.git #idor-toolkit
 cd idor-toolkit
 python3 -m venv .venv
 source .venv/bin/activate        # windows: .venv\Scripts\activate
