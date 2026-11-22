@@ -59,7 +59,7 @@
 
 ```bash
 git clone https://github.com/Kichu-10/IDOR.git #idor-toolkit
-cd idor-toolkit
+cd idor
 python3 -m venv .venv
 source .venv/bin/activate        # windows: .venv\Scripts\activate
 pip install -r requirements.txt
